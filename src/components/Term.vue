@@ -84,7 +84,7 @@ export default {
   }
 
   &__word {
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
   }
 
   &__counter {
@@ -96,7 +96,7 @@ export default {
 
     & input {
       width: var(--xl);
-      font-weight: bold;
+      font-weight: var(--font-weight-bold);
       text-align: center;
       font-size: var(--font-size-default);
       padding: var(--xs);
@@ -112,7 +112,7 @@ export default {
     text-transform: uppercase;
     padding: var(--sm);
     border-radius: var(--xs);
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
   }
 
   &__under {

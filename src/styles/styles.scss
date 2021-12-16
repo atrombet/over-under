@@ -1,7 +1,8 @@
 :root {
-  --font-family: Avenir, Helvetica, Arial, sans-serif;
+  --font-family: 'Work Sans', sans-serif;
   --font-size: 16px;
   --font-size-small: 14px;
+  --font-weight-bold: 600;
 
   --accent: #5f0ebd;
 
@@ -44,7 +45,7 @@ input {
 
 button {
   font-family: var(--font-family);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   padding: var(--sm) var(--md);
   color: var(--text-white);
   background-color: var(--accent);
