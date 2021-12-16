@@ -8,6 +8,7 @@
     </div>
     <div class="term__result">
       <div v-if="term.count < overUnder" class="term__under">under</div>
+      <div v-if="term.count == overUnder" class="term__push">push</div>
       <div v-if="term.count > overUnder" class="term__over">over</div>
     </div>
     <div class="term__delete">
@@ -108,6 +109,7 @@ export default {
   }
 
   &__under,
+  &__push,
   &__over {
     text-transform: uppercase;
     padding: var(--sm);
@@ -119,6 +121,12 @@ export default {
     background-color: var(--under-color-trans);
     border: 2px solid var(--under-color);
     color: var(--under-color);
+  }
+
+  &__push {
+    background-color: var(--push-color-trans);
+    border: 2px solid var(--push-color);
+    color: var(--push-color);
   }
 
   &__over {
