@@ -1,0 +1,5 @@
+export const MUTATIONS = {
+  ADD_TERM: 'ADD_TERM',
+  DELETE_TERM: 'DELETE_TERM',
+  UPDATE_TERM: 'UPDATE_TERM'
+};
