@@ -47,7 +47,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: var(--lg);
 
   &__termInput {
     display: flex;
@@ -62,7 +62,10 @@ export default {
 
   &__terms {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     gap: var(--lg);
   }
 }
