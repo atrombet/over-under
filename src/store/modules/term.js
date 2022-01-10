@@ -27,9 +27,10 @@ const actions = {
     commit(MUTATIONS.UPDATE_TERM, term);
   },
   [ACTIONS.SET_OVER_UNDER]: ({ commit, state }, { id, overUnder }) => {
-    const term = { ...state.terms.find(t => t.id === id) };
-    term.overUnder = overUnder;
-    commit(MUTATIONS.UPDATE_TERM, term);
+    commit(MUTATIONS.UPDATE_TERM, {
+      ...state.terms.find(t => t.id === id),
+      overUnder
+    });
   }
 };
 
