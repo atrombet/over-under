@@ -17,37 +17,42 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
 import { ACTIONS } from '@/resources';
+import { Term } from '@/interfaces';
 
-export default {
-  name: 'Term',
+export default defineComponent({
+  name: 'TermBlock',
   emits: ['delete'],
   props: {
-    term: Object
+    term: {
+      type: Object as PropType<Term>,
+      default: () => ({})
+    }
   },
   computed: {
     overUnder: {
-      get() {
+      get(): number {
         return this.term.overUnder;
       },
-      set(val) {
+      set(val: number): void {
         this.$store.dispatch(ACTIONS.SET_OVER_UNDER, { id: this.term.id, overUnder: val });
       }
     }
   },
   methods: {
-    increment() {
+    increment(): void {
       this.$store.dispatch(ACTIONS.INCREMENT, this.term.id);
     },
-    decrement() {
+    decrement(): void {
       this.$store.dispatch(ACTIONS.DECREMENT, this.term.id);
     },
-    deleteTerm() {
+    deleteTerm(): void {
       this.$store.dispatch(ACTIONS.DELETE_TERM, this.term.id);
     }
   }
-};
+});
 </script>
 
 <style lang="scss">

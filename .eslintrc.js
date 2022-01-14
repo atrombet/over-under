@@ -1,26 +1,28 @@
 module.exports = {
   root: true,
+
   env: {
-    node: true,
+    node: true
   },
-  extends: ["plugin:vue/vue3-essential", "eslint:recommended", "@vue/prettier"],
+
+  extends: ['plugin:vue/vue3-essential', 'eslint:recommended', '@vue/prettier', '@vue/typescript'],
+
   parserOptions: {
-    parser: "babel-eslint",
+    parser: '@typescript-eslint/parser'
   },
+
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-prototype-builtins": "off"
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-prototype-builtins': 'off'
   },
+
   overrides: [
     {
-      files: [
-        "**/__tests__/*.{j,t}s?(x)",
-        "**/tests/unit/**/*.spec.{j,t}s?(x)",
-      ],
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
       env: {
-        jest: true,
-      },
-    },
-  ],
+        jest: true
+      }
+    }
+  ]
 };

@@ -8,36 +8,38 @@
     </div>
     <div class="home__terms">
       <template v-if="!!terms.length">
-        <Term v-for="(term, i) in terms" :key="i" :term="term" />
+        <TermBlock v-for="(term, i) in terms" :key="i" :term="term" />
       </template>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { ACTIONS } from '@/resources';
-import { Term } from '@/components';
+import { TermBlock } from '@/components';
+import { Term } from '@/interfaces';
 
-export default {
+export default defineComponent({
   name: 'Home',
   components: {
-    Term
+    TermBlock
   },
   data: () => ({
     newTerm: ''
   }),
   computed: {
-    terms() {
+    terms(): Term[] {
       return this.$store.getters.allTerms;
     }
   },
   methods: {
-    addNewTerm() {
+    addNewTerm(): void {
       this.$store.dispatch(ACTIONS.CREATE_NEW_TERM, this.newTerm);
       this.newTerm = '';
     }
   }
-};
+});
 </script>
 
 <style lang="scss">
@@ -48,18 +50,15 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: var(--lg);
-
   &__termInput {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: var(--md);
-
     & input {
       width: 300px;
     }
   }
-
   &__terms {
     display: flex;
     flex-direction: row;
