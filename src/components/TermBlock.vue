@@ -1,10 +1,10 @@
 <template>
   <div class="term">
-    <h3 class="term__word">"{{ term.term }}"</h3>
+    <h3 class="term__word">"{{ term.text }}"</h3>
     <div class="term__counter">
-      <i class="icon" :disabled="term.count === 0" @click="decrement">remove</i>
+      <i class="icon" :disabled="term.count === 0" @click="decrement(term.id)">remove</i>
       {{ term.count }}/<input v-model="overUnder" />
-      <i class="icon" @click="increment">add</i>
+      <i class="icon" @click="increment(term.id)">add</i>
     </div>
     <div class="term__result">
       <div v-if="term.count < overUnder" class="term__under">under</div>
@@ -12,15 +12,16 @@
       <div v-if="term.count > overUnder" class="term__over">over</div>
     </div>
     <div class="term__delete">
-      <i class="icon" @click="deleteTerm">clear</i>
+      <i class="icon" @click="deleteTerm(term.id)">clear</i>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { ACTIONS } from '@/resources';
 import { Term } from '@/interfaces';
+import { mapActions } from 'pinia';
+import { useTermStore } from '../stores';
 
 export default defineComponent({
   name: 'TermBlock',
@@ -37,20 +38,12 @@ export default defineComponent({
         return this.term.overUnder;
       },
       set(val: number): void {
-        this.$store.dispatch(ACTIONS.SET_OVER_UNDER, { id: this.term.id, overUnder: val });
+        this.setOverUnder(this.term.id, Number(val));
       }
     }
   },
   methods: {
-    increment(): void {
-      this.$store.dispatch(ACTIONS.INCREMENT, this.term.id);
-    },
-    decrement(): void {
-      this.$store.dispatch(ACTIONS.DECREMENT, this.term.id);
-    },
-    deleteTerm(): void {
-      this.$store.dispatch(ACTIONS.DELETE_TERM, this.term.id);
-    }
+    ...mapActions(useTermStore, ['increment', 'decrement', 'setOverUnder', 'deleteTerm'])
   }
 });
 </script>
