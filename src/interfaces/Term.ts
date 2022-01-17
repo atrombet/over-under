@@ -1,6 +1,6 @@
 export interface Term {
-  term: string;
   id: number;
+  text: string;
   count: number;
   overUnder: number;
 }

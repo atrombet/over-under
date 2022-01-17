@@ -3,8 +3,8 @@
     <h1 class="home__title">Over / Under</h1>
     <p class="home__instruction">Enter a term or phrase to create a new counter.</p>
     <div class="home__termInput">
-      <input v-model="newTerm" @keyup.enter="addNewTerm" placeholder="Enter a term or phrase" />
-      <button @click="addNewTerm" :disabled="!newTerm">Add Term</button>
+      <input v-model="text" @keyup.enter="addTerm" placeholder="Enter a term or phrase" />
+      <button @click="addTerm" :disabled="!text">Add Term</button>
     </div>
     <div class="home__terms">
       <template v-if="!!terms.length">
@@ -16,9 +16,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ACTIONS } from '@/resources';
 import { TermBlock } from '@/components';
-import { Term } from '@/interfaces';
+import { mapState, mapActions } from 'pinia';
+import { useTermStore } from '@/stores';
 
 export default defineComponent({
   name: 'Home',
@@ -26,17 +26,16 @@ export default defineComponent({
     TermBlock
   },
   data: () => ({
-    newTerm: ''
+    text: ''
   }),
   computed: {
-    terms(): Term[] {
-      return this.$store.getters.allTerms;
-    }
+    ...mapState(useTermStore, ['terms'])
   },
   methods: {
-    addNewTerm(): void {
-      this.$store.dispatch(ACTIONS.CREATE_NEW_TERM, this.newTerm);
-      this.newTerm = '';
+    ...mapActions(useTermStore, ['createNewTerm']),
+    addTerm(): void {
+      this.createNewTerm(this.text);
+      this.text = '';
     }
   }
 });
