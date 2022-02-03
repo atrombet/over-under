@@ -1,0 +1,53 @@
+:root {
+  --font-family: 'Work Sans', sans-serif;
+  --font-size: 16px;
+  --font-size-small: 14px;
+  --font-weight-normal: 400;
+  --font-weight-bold: 600;
+
+  --accent: #5f0ebd;
+  --accent-dark: #37076d;
+  --accent-gradient: linear-gradient(to bottom right, var(--accent), var(--accent-dark));
+
+  --gray-lightest: #CCCCCC;
+  --gray-lighter: #BBBBBB;
+  --gray-light: #999999;
+  --gray: #777777;
+  --gray-dark: #555555;
+  --gray-darker: #333333;
+  --gray-darkest: #222222;
+
+  --white: #FFFFFF;
+
+  --text-color: #2c3e50;
+  --text-white: var(--white);
+  --border: 1px solid var(--gray-lightest);
+
+  --xs: 4px;
+  --sm: 8px;
+  --md: 16px;
+  --lg: 24px;
+  --xl: 32px;
+
+  --over-color: #2196f3;
+  --over-color-trans: #2196f31f;
+  --under-color: #ff9800;
+  --under-color-trans: #ff98001f;
+  --push-color: #5f0ebd;
+  --push-color-trans: #5f0ebd1f;
+
+  /* User Feedback */
+  --success: #4caf50;
+  --success-trans: #4caf4f1f;
+  --info: #2196f3;
+  --info-trans: #2196f31f;
+  --warn: #ff9800;
+  --warn-trans: #ff98001f;
+  --error: #f44336;
+  --error-trans: #f443361f;
+
+  // Elevation
+  --elevation-low: 0 0 10px 3px rgba(0, 0, 0, 0.02);
+  --elevation-md: 0px 2px 18px rgba(0, 0, 0, 0.15);
+  --elevation-dialog: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}

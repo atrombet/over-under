@@ -1,0 +1,17 @@
+button {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-bold);
+  padding: var(--sm) var(--md);
+  color: var(--text-white);
+  background-color: var(--accent);
+  border: none;
+  border-radius: var(--xs);
+  font-size: var(--font-size-small);
+  height: 37px;
+  cursor: pointer;
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: default;
+  }
+}

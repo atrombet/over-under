@@ -1,12 +1,20 @@
 import { defineStore } from 'pinia';
-import { Term } from '../interfaces';
+import { Term } from '@/interfaces';
 
 export const useTermStore = defineStore('term', {
+  /*************************************
+   * STATE
+   *************************************/
+
   state: () => ({
-    /** @type {Term[]} */
     terms: [] as Term[],
     nextId: 0
   }),
+
+  /*************************************
+   * ACTIONS
+   *************************************/
+
   actions: {
     /**
      * Creates a new term with initial values and the given text.

@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "pinia": "^2.0.9",
+    "firebase": "^9.6.10",
+    "pinia": "^2.0.13",
     "sass": "^1.45.0",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0"
+    "vue-router": "^4.0.0-0",
+    "vuefire": "^3.0.0-alpha.2"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",

@@ -25,7 +25,6 @@ import { useTermStore } from '../stores';
 
 export default defineComponent({
   name: 'TermBlock',
-  emits: ['delete'],
   props: {
     term: {
       type: Object as PropType<Term>,
