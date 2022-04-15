@@ -1,0 +1,17 @@
+label {
+  display: block;
+  margin-bottom: var(--xs);
+  font-weight: var(--font-weight-bold);
+}
+
+input {
+  font-family: var(--font-family);
+  padding: var(--sm);
+  font-size: var(--font-size-small);
+  border: var(--border);
+  border-radius: var(--xs);
+
+  &:focus-visible {
+    outline: none;
+  }
+}

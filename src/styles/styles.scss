@@ -1,90 +1,32 @@
-:root {
-  --font-family: 'Work Sans', sans-serif;
-  --font-size: 16px;
-  --font-size-small: 14px;
-  --font-weight-bold: 600;
+// Variables
+@import './_variables.scss';
 
-  --accent: #5f0ebd;
+// HTML style overrides
+@import './input.scss';
+@import './button.scss';
+@import './typography.scss';
+@import './link.scss';
 
-  --text-color: #2c3e50;
-  --text-white: #FFFFFF;
-  --border: 1px solid #CCCCCC;
-
-  --xs: 4px;
-  --sm: 8px;
-  --md: 16px;
-  --lg: 24px;
-  --xl: 32px;
-
-  --over-color: #2196f3;
-  --over-color-trans: #2196f31f;
-  --under-color: #ff9800;
-  --under-color-trans: #ff98001f;
-  --push-color: #5f0ebd;
-  --push-color-trans: #5f0ebd1f;
+html {
+  height: 100vh;
+  width: 100vw;
 }
+
+body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+// Custom component styles
+@import './page.scss';
+@import './login.scss';
+@import './icon.scss';
 
 #app {
   font-family: var(--font-family);
   font-size: var(--font-size);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: var(--text-color);
-}
-
-input {
-  font-family: var(--font-family);
-  padding: var(--sm);
-  font-size: var(--font-size-small);
-  border: var(--border);
-  border-radius: var(--xs);
-
-  &:focus-visible {
-    outline: none;
-  }
-}
-
-button {
-  font-family: var(--font-family);
-  font-weight: var(--font-weight-bold);
-  padding: var(--sm) var(--md);
-  color: var(--text-white);
-  background-color: var(--accent);
-  border: none;
-  border-radius: var(--xs);
-  font-size: var(--font-size-small);
-  height: 37px;
-
-  &[disabled] {
-    opacity: 0.5;
-  }
-}
-
-/****************************
- * Material Icons styles
- ****************************/
-.icon {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px; /* Preferred icon size */
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
-
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
-
-  /* Support for IE. */
-  font-feature-settings: 'liga';
 }

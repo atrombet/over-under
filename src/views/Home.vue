@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="page home">
     <h1 class="home__title">Over / Under</h1>
     <p class="home__instruction">Enter a term or phrase to create a new counter.</p>
     <div class="home__termInput">
@@ -43,21 +43,22 @@ export default defineComponent({
 
 <style lang="scss">
 .home {
-  max-width: 70vw;
-  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--lg);
+
   &__termInput {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: var(--md);
+
     & input {
       width: 300px;
     }
   }
+
   &__terms {
     display: flex;
     flex-direction: row;
