@@ -22,7 +22,7 @@
         <input disabled type="file" accept="image/png, image/jpeg" />
       </div>
       <span>
-        <button @click="save">Save</button>
+        <button @click="save" :disabled="!canSave">Save</button>
         <span class="userProfile__result">{{ result }}</span>
       </span>
     </div>

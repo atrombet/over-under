@@ -72,7 +72,7 @@ export default defineComponent({
   top: var(--lg);
   display: flex;
   align-items: center;
-  gap: var(--md);
+  gap: var(--sm);
   cursor: pointer;
 
   &__name,

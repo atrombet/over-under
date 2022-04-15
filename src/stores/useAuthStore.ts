@@ -24,7 +24,6 @@ export const useAuthStore = defineStore('auth', {
       auth.onAuthStateChanged(user => {
         if (user) {
           this.user = user;
-          this.router.push({ name: 'Home' });
         } else {
           this.logout();
         }
@@ -39,6 +38,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null;
       try {
         await auth.createUserWithEmailAndPassword(email, password);
+        this.router.push({ name: 'Home' });
       } catch (error) {
         this.error = error;
       }
@@ -52,6 +52,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null;
       try {
         await auth.signInWithEmailAndPassword(email, password);
+        this.router.push({ name: 'Home' });
       } catch (error) {
         this.error = error;
       }
