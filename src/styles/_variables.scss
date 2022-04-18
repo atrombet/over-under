@@ -1,9 +1,13 @@
 :root {
   --font-family: 'Work Sans', sans-serif;
-  --font-size: 16px;
   --font-size-small: 14px;
+  --font-size: 16px;
+  --font-size-large: 18px;
   --font-weight-normal: 400;
   --font-weight-bold: 600;
+
+  --icon-size-normal: 24px;
+  --icon-size-small: 20px;
 
   --accent: #5f0ebd;
   --accent-dark: #37076d;
@@ -21,7 +25,9 @@
 
   --text-color: #2c3e50;
   --text-white: var(--white);
+
   --border: 1px solid var(--gray-lightest);
+  --border-subtle: 1px solid #EEEEEE;
 
   --xs: 4px;
   --sm: 8px;
