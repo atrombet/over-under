@@ -3,12 +3,18 @@ import Home from '@/views/Home.vue';
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
 import UserProfile from '@/views/UserProfile.vue';
+import LiveSession from '@/views/LiveSession.vue';
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/sessions/live/:sessionId',
+    name: 'LiveSession',
+    component: LiveSession
   },
   {
     path: '/login',

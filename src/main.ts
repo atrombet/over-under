@@ -1,6 +1,7 @@
 import { createApp, markRaw } from 'vue';
 import App from './App.vue';
 import { firestorePlugin } from 'vuefire';
+import vfmPlugin from 'vue-final-modal';
 import router from './router';
 import { createPinia } from 'pinia';
 import { useAuthStore } from '@/stores';
@@ -11,6 +12,8 @@ const app = createApp(App);
 
 // Use the Firebase plugin from vuefire.
 app.use(firestorePlugin);
+// Vue final modal plugin.
+app.use(vfmPlugin);
 
 // Use the Pinia store.
 const pinia = createPinia();

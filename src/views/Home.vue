@@ -1,42 +1,20 @@
 <template>
   <div class="page home">
     <h1 class="home__title">Over / Under</h1>
-    <p class="home__instruction">Enter a term or phrase to create a new counter.</p>
-    <div class="home__termInput">
-      <input v-model="text" @keyup.enter="addTerm" placeholder="Enter a term or phrase" />
-      <button @click="addTerm" :disabled="!text">Add Term</button>
-    </div>
-    <div class="home__terms">
-      <template v-if="!!terms.length">
-        <TermBlock v-for="(term, i) in terms" :key="i" :term="term" />
-      </template>
-    </div>
+    <LiveSessions />
+    <CompletedSessions />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { TermBlock } from '@/components';
-import { mapState, mapActions } from 'pinia';
-import { useTermStore } from '@/stores';
+import { LiveSessions, CompletedSessions } from '@/components';
 
 export default defineComponent({
   name: 'Home',
   components: {
-    TermBlock
-  },
-  data: () => ({
-    text: ''
-  }),
-  computed: {
-    ...mapState(useTermStore, ['terms'])
-  },
-  methods: {
-    ...mapActions(useTermStore, ['createNewTerm']),
-    addTerm(): void {
-      this.createNewTerm(this.text);
-      this.text = '';
-    }
+    LiveSessions,
+    CompletedSessions
   }
 });
 </script>
@@ -45,8 +23,7 @@ export default defineComponent({
 .home {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--lg);
+  gap: var(--xl);
 
   &__termInput {
     display: flex;

@@ -1,2 +1,3 @@
-export * from './Term';
+export * from './Bet';
+export * from './Session';
 export * from './User';

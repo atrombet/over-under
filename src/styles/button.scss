@@ -9,9 +9,23 @@ button {
   font-size: var(--font-size-small);
   height: 37px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--xs);
 
   &[disabled] {
     opacity: 0.5;
     cursor: default;
+  }
+
+  &[flat] {
+    background-color: transparent;
+    color: var(--accent);
+  }
+
+  & i.icon {
+    font-size: var(--icon-size-small);
+    height: var(--icon-size-small);
+    width: var(--icon-size-small);
   }
 }
