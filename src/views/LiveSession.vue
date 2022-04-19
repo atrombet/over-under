@@ -11,7 +11,14 @@
     <AddBet v-if="isGamemaker" @addNewBet="addNewBet" />
     <div class="liveSession__bets">
       <template v-if="!!bets.length">
-        <BetBlock v-for="bet in bets" :key="bet.id" :bet="bet" :sessionId="sessionId" :isGamemaker="isGamemaker" />
+        <BetBlock
+          v-for="bet in bets"
+          :key="bet.id"
+          :bet="bet"
+          :sessionId="sessionId"
+          :isGamemaker="isGamemaker"
+          :user="user"
+        />
       </template>
     </div>
   </div>
