@@ -1,4 +1,13 @@
 .page {
   max-width: 70vw;
   margin: auto;
+
+  &__backToHome {
+    display: flex;
+    align-items: center;
+    gap: var(--xs);
+    font-size: var(--font-size-small);
+    color: var(--accent);
+    padding-top: var(--lg);
+  }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <router-link :to="{ name: 'Home' }">
-      <div class="userProfile__backToHome"><i class="icon">chevron_left</i>Home</div>
+      <div class="page__backToHome"><i class="icon">chevron_left</i>Home</div>
     </router-link>
     <h1>User Profile</h1>
     <div v-if="user" class="userProfile">
@@ -72,15 +72,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: var(--lg);
-
-  &__backToHome {
-    display: flex;
-    align-items: center;
-    gap: var(--xs);
-    font-size: var(--font-size-small);
-    color: var(--accent);
-    padding-top: var(--lg);
-  }
 
   & input {
     width: fit-content;

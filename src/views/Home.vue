@@ -8,8 +8,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { mapState, mapActions } from 'pinia';
-import { useTermStore } from '@/stores';
 import { LiveSessions, CompletedSessions } from '@/components';
 
 export default defineComponent({
@@ -17,19 +15,6 @@ export default defineComponent({
   components: {
     LiveSessions,
     CompletedSessions
-  },
-  data: () => ({
-    text: ''
-  }),
-  computed: {
-    ...mapState(useTermStore, ['terms'])
-  },
-  methods: {
-    ...mapActions(useTermStore, ['createNewTerm']),
-    addTerm(): void {
-      this.createNewTerm(this.text);
-      this.text = '';
-    }
   }
 });
 </script>

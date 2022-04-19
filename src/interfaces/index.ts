@@ -1,3 +1,3 @@
+export * from './Bet';
 export * from './Session';
-export * from './Term';
 export * from './User';

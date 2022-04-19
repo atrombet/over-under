@@ -5,7 +5,6 @@
       <template v-if="!session.completedAt">
         <span v-if="session.bettingClosedAt" class="sessionCard__bettingClosed">Betting closed</span>
         <span v-else class="sessionCard__bettingOpen">Betting open</span>
-
       </template>
     </div>
     <div v-if="session.completedAt">

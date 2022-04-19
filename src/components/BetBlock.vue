@@ -1,58 +1,82 @@
 <template>
-  <div class="term">
-    <h3 class="term__word">"{{ term.text }}"</h3>
-    <div class="term__counter">
-      <i class="icon" :disabled="term.count === 0" @click="decrement(term.id)">remove</i>
-      {{ term.count }}/<input v-model="overUnder" />
-      <i class="icon" @click="increment(term.id)">add</i>
+  <div class="bet">
+    <h3 class="bet__text">"{{ bet.text }}"</h3>
+    <div v-if="isGamemaker" class="bet__counter">
+      <i class="icon" :disabled="bet.count === 0" @click="decrement">remove</i>
+      {{ bet.count }}/<input v-model="overUnder" />
+      <i class="icon" @click="increment">add</i>
     </div>
-    <div class="term__result">
-      <div v-if="term.count < overUnder" class="term__under">under</div>
-      <div v-if="term.count == overUnder" class="term__push">push</div>
-      <div v-if="term.count > overUnder" class="term__over">over</div>
+    <div v-else class="bet__counter viewOnly">
+      <span>{{ bet.count }}</span>
+      <span>/</span>
+      <span class="counter">{{ bet.overUnder }}</span>
     </div>
-    <div class="term__delete">
-      <i class="icon" @click="deleteTerm(term.id)">clear</i>
+    <div class="bet__result">
+      <div v-if="bet.count < overUnder" class="bet__under">under</div>
+      <div v-if="bet.count == overUnder" class="bet__push">push</div>
+      <div v-if="bet.count > overUnder" class="bet__over">over</div>
+    </div>
+    <div v-if="isGamemaker" class="bet__delete">
+      <i class="icon" @click="deleteBet">clear</i>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { Term } from '@/interfaces';
-import { mapActions } from 'pinia';
-import { useTermStore } from '../stores';
+import { Bet } from '@/interfaces';
+import { db } from '@/firebase';
 
 export default defineComponent({
-  name: 'TermBlock',
+  name: 'BetBlock',
   props: {
-    term: {
-      type: Object as PropType<Term>,
+    isGamemaker: Boolean,
+    sessionId: String,
+    bet: {
+      type: Object as PropType<Bet>,
       default: () => ({})
     }
   },
   computed: {
     overUnder: {
       get(): number {
-        return this.term.overUnder;
+        return this.bet.overUnder;
       },
-      set(val: number): void {
-        this.setOverUnder(this.term.id, Number(val));
+      async set(val: number): Promise<void> {
+        await db.doc(`sessions/${this.sessionId}/bets/${this.bet.id}`).set({
+          ...this.bet,
+          overUnder: val
+        });
       }
     }
   },
   methods: {
-    ...mapActions(useTermStore, ['increment', 'decrement', 'setOverUnder', 'deleteTerm'])
+    async increment() {
+      await db.doc(`sessions/${this.sessionId}/bets/${this.bet.id}`).set({
+        ...this.bet,
+        count: this.bet.count + 1
+      });
+    },
+    async decrement() {
+      await db.doc(`sessions/${this.sessionId}/bets/${this.bet.id}`).set({
+        ...this.bet,
+        count: this.bet.count - 1
+      });
+    },
+    async deleteBet() {
+      await db.doc(`sessions/${this.sessionId}/bets/${this.bet.id}`).delete();
+    }
   }
 });
 </script>
 
 <style lang="scss">
-.term {
+.bet {
   padding: var(--md) var(--xl);
   border: var(--border);
   border-radius: var(--md);
   position: relative;
+  text-align: center;
 
   & i.icon {
     height: var(--xl);
@@ -81,7 +105,7 @@ export default defineComponent({
     }
   }
 
-  &__word {
+  &__text {
     font-weight: var(--font-weight-bold);
   }
 
@@ -99,10 +123,18 @@ export default defineComponent({
       font-size: var(--font-size-default);
       padding: var(--xs);
     }
+
+    &.viewOnly {
+      font-size: var(--font-size-large);
+
+      & .counter {
+        font-weight: var(--font-weight-bold);
+      }
+    }
   }
 
   &__result {
-    margin-top: var(--xl);
+    margin-top: var(--lg);
   }
 
   &__under,

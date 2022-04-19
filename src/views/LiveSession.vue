@@ -1,14 +1,17 @@
 <template>
-  <div class="page home">
-    <h1 class="home__title">Over / Under</h1>
-    <p class="home__instruction">Enter a term or phrase to create a new counter.</p>
-    <div class="home__termInput">
-      <input v-model="text" @keyup.enter="addTerm" placeholder="Enter a term or phrase" />
-      <button @click="addTerm" :disabled="!text">Add Term</button>
-    </div>
-    <div class="home__terms">
-      <template v-if="!!terms.length">
-        <TermBlock v-for="(term, i) in terms" :key="i" :term="term" />
+  <div v-if="session" class="page liveSession">
+    <router-link :to="{ name: 'Home' }">
+      <div class="page__backToHome"><i class="icon">chevron_left</i>Home</div>
+    </router-link>
+    <h1 class="liveSession__heading">
+      <span>{{ session.name }}</span>
+      <SessionAccessTag v-model="isGamemaker" />
+    </h1>
+    <div class="liveSession__participants"></div>
+    <AddBet v-if="isGamemaker" @addNewBet="addNewBet" />
+    <div class="liveSession__bets">
+      <template v-if="!!bets.length">
+        <BetBlock v-for="bet in bets" :key="bet.id" :bet="bet" :sessionId="sessionId" :isGamemaker="isGamemaker" />
       </template>
     </div>
   </div>
@@ -16,53 +19,76 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { TermBlock } from '@/components';
-import { mapState, mapActions } from 'pinia';
-import { useTermStore } from '@/stores';
+import { db } from '@/firebase';
+import { Session, Bet } from '@/interfaces';
+import { AddBet, BetBlock, SessionAccessTag } from '@/components';
+import { mapState } from 'pinia';
+import { useAuthStore } from '@/stores';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'LiveSession',
   components: {
-    TermBlock
+    AddBet,
+    BetBlock,
+    SessionAccessTag
   },
   data: () => ({
-    text: ''
+    session: null as null | Session,
+    bets: null as null | Bet[]
   }),
   computed: {
-    ...mapState(useTermStore, ['terms'])
+    ...mapState(useAuthStore, ['user']),
+    sessionId() {
+      return this.$route.params.sessionId;
+    },
+    betsCollection() {
+      return db.doc(`sessions/${this.sessionId}`).collection('bets');
+    },
+    isGamemaker() {
+      return this.session?.owner === this.user?.uid;
+    }
+  },
+  firestore() {
+    return {
+      session: db.doc(`sessions/${this.sessionId}`),
+      bets: this.betsCollection
+    };
   },
   methods: {
-    ...mapActions(useTermStore, ['createNewTerm']),
-    addTerm(): void {
-      this.createNewTerm(this.text);
-      this.text = '';
+    async addNewBet(text: string) {
+      const { id } = this.betsCollection.doc();
+      try {
+        await this.betsCollection.doc(id).set({
+          text,
+          count: 0,
+          overUnder: 0
+        });
+      } catch (error) {
+        alert(error);
+      }
     }
   }
 });
 </script>
 
 <style lang="scss">
-.home {
+.liveSession {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--lg);
 
-  &__termInput {
+  &__heading {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--md);
-
-    & input {
-      width: 300px;
-    }
+    gap: var(--xl);
   }
 
-  &__terms {
+  &__participants {
+    color: var(--gray);
+  }
+
+  &__bets {
+    margin-top: var(--xl);
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: var(--lg);
