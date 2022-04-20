@@ -1,5 +1,5 @@
 export interface Bet {
-  id: number;
+  id: string;
   text: string;
   count: number;
   overUnder: number;

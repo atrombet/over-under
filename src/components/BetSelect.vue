@@ -1,13 +1,28 @@
 <template>
-  <div class="betSelect">
-    <div :class="{ selected: modelValue === 'under' }" @click="select('under')">Under</div>
-    <div :class="{ selected: modelValue === 'push' }" @click="select('push')">Push</div>
-    <div :class="{ selected: modelValue === 'over' }" @click="select('over')">Over</div>
+  <div>
+    <p>Place your bet</p>
+    <div class="betSelect">
+      <div :class="{ selected: modelValue === 'under' }" @click="select('under')">Under</div>
+      <div :class="{ selected: modelValue === 'push' }" @click="select('push')">Push</div>
+      <div :class="{ selected: modelValue === 'over' }" @click="select('over')">Over</div>
+    </div>
+    <div class="betSelect__list">
+      <div>
+        <div v-for="bettor in unders" :key="bettor.id">{{ bettor.displayName }}</div>
+      </div>
+      <div>
+        <div v-for="bettor in pushes" :key="bettor.id">{{ bettor.displayName }}</div>
+      </div>
+      <div>
+        <div v-for="bettor in overs" :key="bettor.id">{{ bettor.displayName }}</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import { Bettor } from '@/interfaces';
 
 export default defineComponent({
   name: 'BetSelect',
@@ -15,9 +30,24 @@ export default defineComponent({
     modelValue: {
       type: String,
       default: () => ''
+    },
+    bettors: {
+      type: Array as PropType<Bettor[]>,
+      default: () => []
     }
   },
   emits: ['update:modelValue'],
+  computed: {
+    unders() {
+      return this.bettors.filter(b => b.choice === 'under');
+    },
+    pushes() {
+      return this.bettors.filter(b => b.choice === 'push');
+    },
+    overs() {
+      return this.bettors.filter(b => b.choice === 'over');
+    }
+  },
   methods: {
     select(choice: 'under' | 'push' | 'under') {
       this.$emit('update:modelValue', choice);
@@ -46,8 +76,13 @@ export default defineComponent({
   }
 
   & .selected {
-    background-color: var(--gray-darker);
-    color: var(--white-text);
+    background-color: var(--gray);
+    color: var(--text-white);
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
 </style>

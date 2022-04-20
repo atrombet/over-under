@@ -19,10 +19,8 @@
       <div v-if="bet.count == overUnder" class="bet__push">push</div>
       <div v-if="bet.count > overUnder" class="bet__over">over</div>
     </div>
-    <div class="bet__actions">
-      <p>Place your bet</p>
-      <BetSelect v-model="userBetChoice" />
-    </div>
+
+    <BetSelect v-model="userBetChoice" :bettors="bettors" />
   </div>
 </template>
 
@@ -54,7 +52,12 @@ export default defineComponent({
   }),
   firestore() {
     return {
-      bettors: db.doc(this.betPath).collection('bettors') as unknown as Bettor[]
+      bettors: db
+        .collection('sessions')
+        .doc(this.sessionId)
+        .collection('bets')
+        .doc(this.bet.id)
+        .collection('bettors') as unknown as Bettor[]
     };
   },
   computed: {
@@ -72,8 +75,8 @@ export default defineComponent({
         });
       }
     },
-    userBet(): Bettor {
-      return db.doc(this.betPath).collection('bettors').where('uid', '==', this.user.uid) as unknown as Bettor;
+    userBet(): Bettor | undefined {
+      return this.bettors.find(b => b.uid === this.user.uid);
     },
     userBetChoice: {
       get() {
