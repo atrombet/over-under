@@ -1,6 +1,9 @@
 <template>
   <div class="bet">
     <h3 class="bet__text">"{{ bet.text }}"</h3>
+    <div v-if="isGamemaker" class="bet__delete">
+      <i class="icon" @click="deleteBet">clear</i>
+    </div>
     <div v-if="isGamemaker" class="bet__counter">
       <i class="icon" :disabled="bet.count === 0" @click="decrement">remove</i>
       {{ bet.count }}/<input v-model="overUnder" />
@@ -16,37 +19,84 @@
       <div v-if="bet.count == overUnder" class="bet__push">push</div>
       <div v-if="bet.count > overUnder" class="bet__over">over</div>
     </div>
-    <div v-if="isGamemaker" class="bet__delete">
-      <i class="icon" @click="deleteBet">clear</i>
-    </div>
+
+    <BetSelect v-model="userBetChoice" :bettors="bettors" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { Bet } from '@/interfaces';
+import { Bet, User, Bettor } from '@/interfaces';
 import { db } from '@/firebase';
+import BetSelect from './BetSelect.vue';
 
 export default defineComponent({
   name: 'BetBlock',
+  components: {
+    BetSelect
+  },
   props: {
     isGamemaker: Boolean,
     sessionId: String,
+    user: {
+      type: Object as PropType<User>,
+      default: () => ({})
+    },
     bet: {
       type: Object as PropType<Bet>,
       default: () => ({})
     }
   },
+  data: () => ({
+    bettors: [] as Bettor[]
+  }),
+  firestore() {
+    return {
+      bettors: db
+        .collection('sessions')
+        .doc(this.sessionId)
+        .collection('bets')
+        .doc(this.bet.id)
+        .collection('bettors') as unknown as Bettor[]
+    };
+  },
   computed: {
+    betPath() {
+      return `sessions/${this.sessionId}/bets/${this.bet.id}`;
+    },
     overUnder: {
       get(): number {
         return this.bet.overUnder;
       },
       async set(val: number): Promise<void> {
-        await db.doc(`sessions/${this.sessionId}/bets/${this.bet.id}`).set({
+        await db.doc(this.betPath).set({
           ...this.bet,
           overUnder: val
         });
+      }
+    },
+    userBet(): Bettor | undefined {
+      return this.bettors.find(b => b.uid === this.user.uid);
+    },
+    userBetChoice: {
+      get() {
+        return this.userBet?.choice;
+      },
+      async set(choice: 'under' | 'push' | 'over') {
+        if (this.userBet) {
+          await db.doc(`${this.betPath}/bettors/${this.userBet.id}`).set({
+            ...this.userBet,
+            choice
+          });
+        } else {
+          const { id } = await db.collection(`${this.betPath}/bettors`).doc();
+          await db.doc(`${this.betPath}/bettors/${id}`).set({
+            uid: this.user.uid,
+            displayName: this.user.displayName,
+            choice
+          });
+        }
+        console.log(choice);
       }
     }
   },

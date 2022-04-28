@@ -44,9 +44,9 @@ export default defineComponent({
     }
 
     &.participant {
-      border: 1px solid var(--participant-color);
-      color: var(--participant-color);
-      background-color: var(--participant-color-trans);
+      border: 1px solid var(--neutral-text);
+      color: var(--neutral-text);
+      background-color: var(--neutral-bg);
     }
   }
 }
