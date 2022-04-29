@@ -3,7 +3,12 @@
     <h2>Completed</h2>
     <div class="completedSessions__none" v-if="!completedSessions.length">No completed sessions yet.</div>
     <div v-else class="completedSessions__list">
-      <SessionCard v-for="session in completedSessions" :key="session.id" :session="session" />
+      <SessionCard
+        v-for="session in completedSessions"
+        :key="session.id"
+        :session="session"
+        @click="goToSession(session.id)"
+      />
     </div>
   </div>
 </template>
@@ -26,6 +31,11 @@ export default defineComponent({
     return {
       completedSessions: db.collection('sessions').where('completedAt', '!=', null)
     };
+  },
+  methods: {
+    goToSession(id: string) {
+      this.$router.push({ name: 'CompletedSession', params: { sessionId: id } });
+    }
   }
 });
 </script>

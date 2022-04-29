@@ -4,6 +4,7 @@ import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
 import UserProfile from '@/views/UserProfile.vue';
 import LiveSession from '@/views/LiveSession.vue';
+import CompletedSession from '@/views/CompletedSession.vue';
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
     path: '/sessions/live/:sessionId',
     name: 'LiveSession',
     component: LiveSession
+  },
+  {
+    path: '/sessions/completed/:sessionId',
+    name: 'CompletedSession',
+    component: CompletedSession
   },
   {
     path: '/login',
