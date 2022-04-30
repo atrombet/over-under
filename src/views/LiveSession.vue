@@ -5,7 +5,11 @@
     </router-link>
     <h1 class="liveSession__heading">
       <span>{{ session.name }}</span>
-      <SessionAccessTag v-model="isGamemaker" />
+      <SessionAccessTag v-model="isGamemaker" class="liveSession__accessTag" />
+      <div v-if="isGamemaker" class="liveSession__gamemakerActions">
+        <button outlined>Close Betting</button>
+        <button outlined>Complete Session</button>
+      </div>
     </h1>
     <div class="liveSession__participants"></div>
     <AddBet v-if="isGamemaker" @addNewBet="addNewBet" />
@@ -52,6 +56,15 @@ const addNewBet = async (text: string) => {
   &__heading {
     display: flex;
     gap: var(--xl);
+  }
+
+  &__accessTag {
+    flex-grow: 1;
+  }
+
+  &__gamemakerActions {
+    display: flex;
+    gap: var(--md);
   }
 
   &__participants {
