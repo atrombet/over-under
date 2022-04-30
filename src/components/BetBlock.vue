@@ -20,7 +20,7 @@
       <div v-if="bet.count > overUnder" class="bet__over">over</div>
     </div>
 
-    <BetSelect v-model="userBetChoice" :bettors="bettors" />
+    <BetSelect v-model="userBetChoice" :bettors="bettors" :readOnly="readOnly" />
   </div>
 </template>
 
@@ -45,6 +45,10 @@ export default defineComponent({
     bet: {
       type: Object as PropType<Bet>,
       default: () => ({})
+    },
+    readOnly: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({

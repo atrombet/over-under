@@ -5,18 +5,30 @@
     </router-link>
     <h1 class="completedSession__heading">
       <span>{{ session.name }}</span>
-      <span v-if="isGamemaker">You were the Gamemaker of this session</span>
     </h1>
+    <div v-if="isGamemaker" class="completedSession__role">You were the Gamemaker of this session</div>
     <div class="completedSession__bets">
-      <div v-for="bet in bets" :key="bet.id">{{ bet }}</div>
+      <BetBlock
+        v-for="bet in bets"
+        :key="bet.id"
+        :isGamemaker="false"
+        :bet="bet"
+        :user="user"
+        :sessionId="sessionId"
+        :readOnly="bettingClosed"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { BetBlock } from '@/components';
 import { useSession } from '@/composables';
 
-const { session, bets, isGamemaker } = useSession();
+const { session, bets, isGamemaker, user, sessionId } = useSession();
+
+const bettingClosed = computed(() => !!session.value.bettingClosedAt);
 </script>
 
 <style lang="scss">
@@ -27,6 +39,21 @@ const { session, bets, isGamemaker } = useSession();
   &__heading {
     display: flex;
     gap: var(--xl);
+  }
+
+  &__role {
+    color: var(--gray);
+    font-size: var(--font-size);
+    font-weight: var(--font-weight-normal);
+  }
+
+  &__bets {
+    margin-top: var(--xl);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--lg);
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Place your bet</p>
-    <div class="betSelect">
+    <div class="betSelect" :class="{ readonly: readOnly }">
       <div :class="{ selected: modelValue === 'under' }" @click="select('under')">Under</div>
       <div :class="{ selected: modelValue === 'push' }" @click="select('push')">Push</div>
       <div :class="{ selected: modelValue === 'over' }" @click="select('over')">Over</div>
@@ -27,6 +27,10 @@ import { Bettor } from '@/interfaces';
 export default defineComponent({
   name: 'BetSelect',
   props: {
+    readOnly: {
+      type: Boolean,
+      default: false
+    },
     modelValue: {
       type: String,
       default: () => ''
@@ -50,7 +54,9 @@ export default defineComponent({
   },
   methods: {
     select(choice: 'under' | 'push' | 'under') {
-      this.$emit('update:modelValue', choice);
+      if (!this.readOnly) {
+        this.$emit('update:modelValue', choice);
+      }
     }
   }
 });
@@ -64,6 +70,11 @@ export default defineComponent({
   grid-template-columns: 1fr 1fr 1fr;
   font-size: var(--font-size-small);
   cursor: pointer;
+
+  &.readonly {
+    cursor: default;
+    pointer-events: none;
+  }
 
   & div {
     padding: var(--xs) var(--sm);
