@@ -1,5 +1,5 @@
 <template>
-  <div v-if="session" class="page liveSession">
+  <div v-if="Object.keys(session).length" class="page liveSession">
     <router-link :to="{ name: 'Home' }">
       <div class="page__backToHome"><i class="icon">chevron_left</i>Home</div>
     </router-link>
@@ -24,58 +24,24 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { db } from '@/firebase';
-import { Session, Bet } from '@/interfaces';
+<script setup lang="ts">
 import { AddBet, BetBlock, SessionAccessTag } from '@/components';
-import { mapState } from 'pinia';
-import { useAuthStore } from '@/stores';
+import { useSession } from '@/composables';
 
-export default defineComponent({
-  name: 'LiveSession',
-  components: {
-    AddBet,
-    BetBlock,
-    SessionAccessTag
-  },
-  data: () => ({
-    session: null as null | Session,
-    bets: null as null | Bet[]
-  }),
-  computed: {
-    ...mapState(useAuthStore, ['user']),
-    sessionId() {
-      return this.$route.params.sessionId;
-    },
-    betsCollection() {
-      return db.doc(`sessions/${this.sessionId}`).collection('bets');
-    },
-    isGamemaker() {
-      return this.session?.owner === this.user?.uid;
-    }
-  },
-  firestore() {
-    return {
-      session: db.doc(`sessions/${this.sessionId}`),
-      bets: this.betsCollection
-    };
-  },
-  methods: {
-    async addNewBet(text: string) {
-      const { id } = this.betsCollection.doc();
-      try {
-        await this.betsCollection.doc(id).set({
-          text,
-          count: 0,
-          overUnder: 0
-        });
-      } catch (error) {
-        alert(error);
-      }
-    }
+const { sessionId, betsCollection, session, bets, user, isGamemaker } = useSession();
+
+const addNewBet = async (text: string) => {
+  const { id } = betsCollection.value.doc();
+  try {
+    await betsCollection.value.doc(id).set({
+      text,
+      count: 0,
+      overUnder: 0
+    });
+  } catch (error) {
+    alert(error);
   }
-});
+};
 </script>
 
 <style lang="scss">
