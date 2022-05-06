@@ -1,6 +1,6 @@
 export interface Session {
-  bettingClosedAt: number;
-  completedAt: number;
+  bettingClosedAt: number | null;
+  completedAt: number | null;
   id: string;
   name: string;
   owner: string;
