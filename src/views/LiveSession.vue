@@ -5,10 +5,17 @@
     </router-link>
     <h1 class="liveSession__heading">
       <span>{{ session.name }}</span>
-      <SessionAccessTag v-model="isGamemaker" />
+      <SessionAccessTag v-model="isGamemaker" class="liveSession__accessTag" />
     </h1>
+    <StatusBlock
+      :session="session"
+      :isGamemaker="isGamemaker"
+      @closeBetting="closeBetting"
+      @openBetting="openBetting"
+      @complete="complete"
+    />
     <div class="liveSession__participants"></div>
-    <AddBet v-if="isGamemaker" @addNewBet="addNewBet" />
+    <AddBet v-if="isGamemaker && !session.completedAt" @addNewBet="addNewBet" />
     <div class="liveSession__bets">
       <template v-if="!!bets.length">
         <BetBlock
@@ -18,6 +25,7 @@
           :sessionId="sessionId"
           :isGamemaker="isGamemaker"
           :user="user"
+          :readOnly="!!session.bettingClosedAt"
         />
       </template>
     </div>
@@ -25,8 +33,10 @@
 </template>
 
 <script setup lang="ts">
-import { AddBet, BetBlock, SessionAccessTag } from '@/components';
+import { AddBet, BetBlock, SessionAccessTag, StatusBlock } from '@/components';
 import { useSession } from '@/composables';
+import { db } from '@/firebase';
+import { Session } from '@/interfaces';
 
 const { sessionId, betsCollection, session, bets, user, isGamemaker } = useSession();
 
@@ -42,6 +52,27 @@ const addNewBet = async (text: string) => {
     alert(error);
   }
 };
+
+const closeBetting = async () => {
+  await db.doc(`sessions/${sessionId.value}`).set({
+    ...session.value,
+    bettingClosedAt: Date.now()
+  } as Session);
+};
+
+const openBetting = async () => {
+  await db.doc(`sessions/${sessionId.value}`).set({
+    ...session.value,
+    bettingClosedAt: null
+  } as Session);
+};
+
+const complete = async () => {
+  await db.doc(`sessions/${sessionId.value}`).set({
+    ...session.value,
+    completedAt: Date.now()
+  } as Session);
+};
 </script>
 
 <style lang="scss">
@@ -52,6 +83,22 @@ const addNewBet = async (text: string) => {
   &__heading {
     display: flex;
     gap: var(--xl);
+  }
+
+  &__accessTag {
+    flex-grow: 1;
+  }
+
+  &__gamemakerActions {
+    display: flex;
+    gap: var(--md);
+  }
+
+  &__status {
+    padding: var(--md);
+    border-radius: var(--xs);
+    background-color: var(--gray-lightest);
+    width: fit-content;
   }
 
   &__participants {

@@ -6,6 +6,7 @@
     <h1 class="completedSession__heading">
       <span>{{ session.name }}</span>
     </h1>
+    <StatusBlock :session="session" :isGamemaker="isGamemaker" />
     <div v-if="isGamemaker" class="completedSession__role">You were the Gamemaker of this session</div>
     <div class="completedSession__bets">
       <BetBlock
@@ -23,7 +24,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { BetBlock } from '@/components';
+import { BetBlock, StatusBlock } from '@/components';
 import { useSession } from '@/composables';
 
 const { session, bets, isGamemaker, user, sessionId } = useSession();
@@ -36,12 +37,8 @@ const bettingClosed = computed(() => !!session.value.bettingClosedAt);
   display: flex;
   flex-direction: column;
 
-  &__heading {
-    display: flex;
-    gap: var(--xl);
-  }
-
   &__role {
+    margin-top: var(--xl);
     color: var(--gray);
     font-size: var(--font-size);
     font-weight: var(--font-weight-normal);

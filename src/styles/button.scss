@@ -23,6 +23,12 @@ button {
     color: var(--accent);
   }
 
+  &[outlined] {
+    background-color: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+  }
+
   & i.icon {
     font-size: var(--icon-size-small);
     height: var(--icon-size-small);
