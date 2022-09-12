@@ -100,7 +100,6 @@ export default defineComponent({
             choice
           });
         }
-        console.log(choice);
       }
     }
   },
